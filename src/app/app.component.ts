@@ -20,6 +20,6 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
   }
 }
