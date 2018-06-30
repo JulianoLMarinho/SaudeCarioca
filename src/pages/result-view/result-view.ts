@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams, Platform} from 'ionic-angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -13,6 +13,7 @@ import {MPService} from "../../services/MPService";
 import {GMDMatrix} from "../../services/GoogleMapDistanceMatrixAPI";
 import {isUndefined} from "ionic-angular/util/util";
 import { Geolocation } from '@ionic-native/geolocation'
+import {Unidade} from "../../models/unidade";
 
 /**
  * Generated class for the ResultViewPage page.
@@ -55,67 +56,31 @@ export class ResultViewPage {
   //     "telefone":"(21)25622688"
   //   }
   // }
-  hospital:any;
-  hosp={
-    "type":"Feature",
-    "id":"saude_estabelecimentos_cnes.fid--15750827_15fda22edcf_-5e0d",
-    "geometry":{
-      "type":"MultiPoint",
-      "coordinates":[[-4812384.36707353,-2614802.88778987]]
-    },
-    "geometry_name":"geom",
-    "properties":{
-      "Município":"RIO DE JANEIRO",
-      "Código_CNES":2280167,
-      "Estabelecimento":"HOSPITAL UNIVERSITARIO CLEMENTINO FRAGA FILHO",
-      "Tipo":"HOSPITAL GERAL",
-      "Gestão":"Municipal",
-      "CEP":21941590,
-      "Endereco":"RUA PROFESSOR RODOLPHO PAULO ROCCO, 255 - ILHA DO FUNDAO - RIO DE JANEIRO - RJ",
-      "Telefone":"(21)25622688"
-    }
-  }
-  lat:any
-  long:any
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private mpservice: MPService, private gmapdm: GMDMatrix,private geolocation: Geolocation) {
-    let tipo = navParams.get("tipo");
-    this.loading = true;
-    this.geolocation.getCurrentPosition().then((resp) => {
+  hospital: Unidade;
 
-      this.lat = resp.coords.latitude
-      this.long = resp.coords.longitude
-      this.mpservice.getUS().subscribe((res)=>{
-        for(let ho of res.json().features){
-          if(ho!=null && !isUndefined(ho)){
-            if( ho.properties.tipo == tipo){
-              this.teste = this.teste.concat(ho)
-            }
-          }
-        }
-        let temp = this.teste[0];
-        let MTemp = this.getMaisProximo(this.lat, this.long, temp.geometry.coordinates[0][1],temp.geometry.coordinates[0][0])
-        for(let m of this.teste){
-          if(m.geometry!=null){
-            if(this.getMaisProximo(this.lat, this.long, m.geometry.coordinates[0][1], m.geometry.coordinates[0][0])<MTemp){
-              temp = m;
-              MTemp = this.getMaisProximo(this.lat, this.long, m.geometry.coordinates[0][1], m.geometry.coordinates[0][0]);
-            }
-          }
-        }
-        this.hospital = temp;
-        this.gmapdm.getDistance([this.long, this.lat],[this.hospital.geometry.coordinates[0][0], this.hospital.geometry.coordinates[0][1]]).subscribe((res)=>{
-          this.local = (res.json().rows[0].elements[0].distance.value/1000).toFixed(1)+" km"
+  lat:any;
+  long:any;
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public platform: Platform,
+              private mpservice: MPService,
+              private gmapdm: GMDMatrix,
+              private geolocation: Geolocation,
+              private loadCtrl: LoadingController) {
 
-        })
-        this.loading = false;
+    let loadingV = this.loadCtrl.create({
+        content: "Carregando"
+    });
+    loadingV.present();
+    this.hospital = navParams.get("unidade");
+    this.lat = navParams.get("lat");
+    this.long = navParams.get("long");
+    console.log(this.hospital);
+        loadingV.dismiss();
         platform.ready().then(() => {
+
           this.loadMap();
         });
-        // this.gmapdm.getDistance()
-      })
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
 
 
   }
@@ -160,11 +125,11 @@ export class ResultViewPage {
   gfg:any;
 
   change() {
-    let GOOGLE = {"lat": this.hospital.geometry.coordinates[0][1], "lng": this.hospital.geometry.coordinates[0][0]};
+    let GOOGLE = {"lat": this.hospital.coodenadas[1], "lng": this.hospital.coodenadas[0]};
 
     this.map.addMarker({
       'position': GOOGLE,
-      'title': this.hospital.properties.estabeleci
+      'title': this.hospital.estabelecimento
     });
     this.map.animateCamera({
       'target': GOOGLE,
@@ -187,7 +152,7 @@ export class ResultViewPage {
         "time:" + location.time,
         "bearing:" + location.bearing].join("\n");
 
-    }
+    };
 
       let onError = function (msg) {
         console.log('error');
@@ -196,11 +161,5 @@ export class ResultViewPage {
       this.map.getMyLocation(onSuccess);
 
 
-    }
-
-    getMaisProximo(lat1, long1, lat2, long2){
-      let lat = Math.abs(lat1-lat2);
-      let long = Math.abs(long1-long2);
-      return Math.sqrt(lat*lat+long*long)
     }
 }

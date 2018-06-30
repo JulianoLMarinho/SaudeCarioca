@@ -10,6 +10,7 @@ import {
 } from '@ionic-native/google-maps';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {ResultViewPage} from "../result-view/result-view";
+import {ResultListPage} from "../result-list/result-list";
 
 
 @Component({
@@ -111,7 +112,7 @@ export class HomePage {
   }
 
   result(tipo:string){
-    this.navCtrl.push(ResultViewPage,{tipo: tipo})
+    this.navCtrl.push(ResultListPage,{tipo: tipo})
   }
 
   result_upa(){

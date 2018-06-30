@@ -12,6 +12,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {ResultViewPage} from "../pages/result-view/result-view";
 import {HttpModule} from "@angular/http";
+import {ResultListPage} from "../pages/result-list/result-list";
+import {MPService} from "../services/MPService";
+import {GMDMatrix} from "../services/GoogleMapDistanceMatrixAPI";
+import {Geolocation} from "@ionic-native/geolocation";
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import {HttpModule} from "@angular/http";
     HomePage,
     TabsPage,
     NavigationDetailsPage,
-    ResultViewPage
+    ResultViewPage,
+      ResultListPage
   ],
   imports: [
     BrowserModule,
@@ -36,11 +41,12 @@ import {HttpModule} from "@angular/http";
     HomePage,
     TabsPage,
     NavigationDetailsPage,
-    ResultViewPage
+    ResultViewPage,
+      ResultListPage
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    SplashScreen,MPService, GMDMatrix, Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

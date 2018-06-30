@@ -3,7 +3,7 @@
  */
 
 import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
+import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 @Injectable()
 export class MPService{
@@ -11,7 +11,7 @@ export class MPService{
 
   }
 
-  getUS(){
+  getUS(): Observable<any>{
     return this._http.get("http://apps.mprj.mp.br/geoserver/plataforma/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=plataforma:saude_estabelecimentos_cnes_app&outputFormat=application%2Fjson&SRSNAME=EPSG:4326&format_options=CHARSET:UTF-8");
    }
 

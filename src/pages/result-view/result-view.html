@@ -13,14 +13,14 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="loading" style="text-align: center; width: 100%; height: 100%; background-color: rgb(255,255,255); position: absolute; margin-top: 25%;" ><img width="100px" src="./assets/gif/loading.gif"></div>
-  <h6>{{hospital?.properties.tipo}}</h6>
-  <ion-row *ngIf="!loading">
+  <h6>{{hospital.tipo}}</h6>
+  <ion-row>
     <ion-col col-12>
-      <p><b>Nome: </b>{{hospital?.properties.estabeleci}}</p>
-      <p><b>Endereço: </b>{{hospital?.properties.endereco}}</p>
-      <p><b>Telefone: </b>{{hospital?.properties.telefone}}</p>
-      <p><b>Distância: </b>{{local}}</p>
+      <p><b>Nome: </b>{{hospital.estabelecimento}}</p>
+      <p><b>Endereço: </b>{{hospital.endereco}}</p>
+      <p><b>Telefone: </b>{{hospital.telefone}}</p>
+      <p><b>Distância: </b>{{hospital.distanciaText}}</p>
+      <p><b>Classificação:</b> 3.8</p>
       <p><b>Localização: </b></p>
       <!--<p><b>Teste: </b>{{lat}}, e {{long}}</p>-->
     </ion-col>
