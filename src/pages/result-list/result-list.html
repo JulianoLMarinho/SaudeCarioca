@@ -15,16 +15,21 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let unidade of this.unidadesSort" (click)="openResult(unidade)">
-      <ion-avatar item-start>
-        <div style="width: 40px; height: 40px; text-align: center;vertical-align: middle; justify-content: center">
-          <h1>4.9</h1>
-        </div>
-      </ion-avatar>
-      <h2>{{unidade.estabelecimento}}</h2>
-      <h3>{{unidade.endereco}}</h3>
-      <p>{{unidade.municipio}}</p>
-      <p>{{unidade.distanciaText}}</p>
+    <ion-item *ngFor="let unidade of this.unidadesSort">
+      <div class="details" (click)="openResult(unidade)">
+        <h2><b>Nome:</b> {{unidade.estabelecimento}}</h2>
+        <h3><b>Endereço:</b> {{unidade.endereco}}</h3>
+        <!--<p>{{unidade.municipio}}</p>-->
+        <p><b>Distância:</b> {{unidade.distanciaText}}</p>
+      </div>
+      <ion-row>
+        <ion-col>
+          <h1 style="color: #ffef00;" (click)="openResult(unidade)"><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon></h1>
+        </ion-col>
+        <ion-col>
+          <h2 style="text-align: right; color: #007aff" (click)="openComment()">Veja Avaliações</h2>
+        </ion-col>
+      </ion-row>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -16,6 +16,8 @@ import {ResultListPage} from "../pages/result-list/result-list";
 import {MPService} from "../services/MPService";
 import {GMDMatrix} from "../services/GoogleMapDistanceMatrixAPI";
 import {Geolocation} from "@ionic-native/geolocation";
+import {CommentListPage} from "../pages/comment-list/comment-list";
+import {EvaluatePage} from "../pages/evaluate/evaluate";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {Geolocation} from "@ionic-native/geolocation";
     TabsPage,
     NavigationDetailsPage,
     ResultViewPage,
-      ResultListPage
+      ResultListPage,
+      CommentListPage,
+      EvaluatePage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,9 @@ import {Geolocation} from "@ionic-native/geolocation";
     TabsPage,
     NavigationDetailsPage,
     ResultViewPage,
-      ResultListPage
+      ResultListPage,
+      CommentListPage,
+      EvaluatePage
   ],
   providers: [
     StatusBar,

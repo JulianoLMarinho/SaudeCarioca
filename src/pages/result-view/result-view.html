@@ -13,6 +13,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-fab top right edge>
+    <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list>
+      <button (click)="openEvaluate()">Avaliar Unidade</button>
+    </ion-fab-list>
+  </ion-fab>
   <h6>{{hospital.tipo}}</h6>
   <ion-row>
     <ion-col col-12>
@@ -20,7 +26,8 @@
       <p><b>Endereço: </b>{{hospital.endereco}}</p>
       <p><b>Telefone: </b>{{hospital.telefone}}</p>
       <p><b>Distância: </b>{{hospital.distanciaText}}</p>
-      <p><b>Classificação:</b> 3.8</p>
+      <p><b>Classificação:</b> <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><a (click)="openComment()" style="float: right">Ver Avaliações</a>
+      </p>
       <p><b>Localização: </b></p>
       <!--<p><b>Teste: </b>{{lat}}, e {{long}}</p>-->
     </ion-col>

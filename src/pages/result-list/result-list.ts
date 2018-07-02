@@ -7,6 +7,7 @@ import {Unidade} from "../../models/unidade";
 import {GMDMatrix} from "../../services/GoogleMapDistanceMatrixAPI";
 import {NavigationDetailsPage} from "../home/home";
 import {ResultViewPage} from "../result-view/result-view";
+import {CommentListPage} from "../comment-list/comment-list";
 
 /**
  * Generated class for the ResultListPage page.
@@ -95,6 +96,10 @@ export class ResultListPage {
 
   openResult(u: Unidade){
       this.navCtrl.push(ResultViewPage, { unidade: u, lat: this.userLat, long: this.userLong })
+  }
+
+  openComment(){
+      this.navCtrl.push(CommentListPage);
   }
 
 }

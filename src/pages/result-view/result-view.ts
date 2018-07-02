@@ -14,6 +14,8 @@ import {GMDMatrix} from "../../services/GoogleMapDistanceMatrixAPI";
 import {isUndefined} from "ionic-angular/util/util";
 import { Geolocation } from '@ionic-native/geolocation'
 import {Unidade} from "../../models/unidade";
+import {CommentListPage} from "../comment-list/comment-list";
+import {EvaluatePage} from "../evaluate/evaluate";
 
 /**
  * Generated class for the ResultViewPage page.
@@ -158,8 +160,23 @@ export class ResultViewPage {
         console.log('error');
       };
 
-      this.map.getMyLocation(onSuccess);
+      this.map.getMyLocation().then((location) => {
+          this.local = ["Current your location:\n",
+              "latitude:" + location.latLng.lat,
+              "longitude:" + location.latLng.lng,
+              "speed:" + location.speed,
+              "time:" + location.time,
+              "bearing:" + location.bearing].join("\n");
+      });
 
 
+    }
+
+    openComment(){
+        this.navCtrl.push(CommentListPage);
+    }
+
+    openEvaluate(){
+      this.navCtrl.push(EvaluatePage);
     }
 }

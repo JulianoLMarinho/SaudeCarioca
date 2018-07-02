@@ -1,8 +1,10 @@
 page-result-list {
   ion-item{
-    h2, h3, p {
-      overflow: inherit;
-      text-overflow: inherit;
+    .details {
+      h2, h3, p {
+        overflow: inherit;
+        text-overflow: inherit;
+      }
     }
   }
 }

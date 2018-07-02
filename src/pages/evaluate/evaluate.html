@@ -1,0 +1,35 @@
+<!--
+  Generated template for the EvaluatePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Avaliar Unidade</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-input type="text" placeholder="Seu Nome (opcional)"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-textarea style="height: 300px" placeholder="Reporte como foi o atendimento, o que faltou nessa unidade, sugestões e o que mais achar interessante."></ion-textarea>
+  </ion-item>
+  <ion-item style="text-align: center;">
+    <h1 style="font-size: 50px">
+      <ion-icon (click)="clickStar(0)" [ngStyle]="{'color': this.star[0]}" name="{{starType[0]}}"></ion-icon>
+      <ion-icon (click)="clickStar(1)" [ngStyle]="{'color': this.star[1]}" name="{{starType[1]}}"></ion-icon>
+      <ion-icon (click)="clickStar(2)" [ngStyle]="{'color': this.star[2]}" name="{{starType[2]}}"></ion-icon>
+      <ion-icon (click)="clickStar(3)" [ngStyle]="{'color': this.star[3]}" name="{{starType[3]}}"></ion-icon>
+      <ion-icon (click)="clickStar(4)" [ngStyle]="{'color': this.star[4]}" name="{{starType[4]}}"></ion-icon>
+    </h1>
+  </ion-item>
+  <div style="text-align: center; margin-top: 10px">
+    <button ion-button color="default">Enviar Avaliação</button>
+  </div>
+</ion-content>
