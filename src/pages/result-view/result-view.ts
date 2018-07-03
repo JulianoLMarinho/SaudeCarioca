@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams, Platform} from 'ionic-angular';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
-} from '@ionic-native/google-maps';
+import {GoogleMaps,
+    GoogleMap,
+    GoogleMapsEvent,
+    GoogleMapOptions,
+    CameraPosition,
+    MarkerOptions,
+    Marker} from '@ionic-native/google-maps';
 import {MPService} from "../../services/MPService";
 import {GMDMatrix} from "../../services/GoogleMapDistanceMatrixAPI";
-import {isUndefined} from "ionic-angular/util/util";
 import { Geolocation } from '@ionic-native/geolocation'
 import {Unidade} from "../../models/unidade";
 import {CommentListPage} from "../comment-list/comment-list";
@@ -26,148 +23,135 @@ import {EvaluatePage} from "../evaluate/evaluate";
 
 @IonicPage()
 @Component({
-  selector: 'page-result-view',
-  providers: [MPService, GMDMatrix, Geolocation],
-  templateUrl: 'result-view.html',
+    selector: 'page-result-view',
+    providers: [MPService, GMDMatrix, Geolocation],
+    templateUrl: 'result-view.html',
 })
 export class ResultViewPage {
 
-  local: any;
-  loading: boolean = false;
-  map:GoogleMap;
+    local: any;
+    loading: boolean = false;
+    map:GoogleMap;
 
-  teste = [];
+    teste = [];
 
-  // hospital = {
-  //   "type":"Feature",
-  //   "id":"saude_estabelecimentos_cnes_app.fid--15089972_15fda91cd09_-7231",
-  //   "geometry":{
-  //     "type":"MultiPoint",
-  //     "coordinates":[[-43.2303843,-22.8575674]]
-  //   },
-  //   "geometry_name":"geom",
-  //   "properties":{
-  //     "id":2280167,
-  //     "municipio":"RIO DE JANEIRO",
-  //     "cnes":2280167,
-  //     "estabeleci":"HOSPITAL UNIVERSITARIO CLEMENTINO FRAGA FILHO",
-  //     "tipo":"HOSPITAL GERAL",
-  //     "gestao":"Municipal",
-  //     "cep":21941590,
-  //     "endereco":"RUA PROFESSOR RODOLPHO PAULO ROCCO, 255 - ILHA DO FUNDAO - RIO DE JANEIRO - RJ",
-  //     "telefone":"(21)25622688"
-  //   }
-  // }
-  hospital: Unidade;
+    // hospital = {
+    //   "type":"Feature",
+    //   "id":"saude_estabelecimentos_cnes_app.fid--15089972_15fda91cd09_-7231",
+    //   "geometry":{
+    //     "type":"MultiPoint",
+    //     "coordinates":[[-43.2303843,-22.8575674]]
+    //   },
+    //   "geometry_name":"geom",
+    //   "properties":{
+    //     "id":2280167,
+    //     "municipio":"RIO DE JANEIRO",
+    //     "cnes":2280167,
+    //     "estabeleci":"HOSPITAL UNIVERSITARIO CLEMENTINO FRAGA FILHO",
+    //     "tipo":"HOSPITAL GERAL",
+    //     "gestao":"Municipal",
+    //     "cep":21941590,
+    //     "endereco":"RUA PROFESSOR RODOLPHO PAULO ROCCO, 255 - ILHA DO FUNDAO - RIO DE JANEIRO - RJ",
+    //     "telefone":"(21)25622688"
+    //   }
+    // }
+    hospital: Unidade;
 
-  lat:any;
-  long:any;
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public platform: Platform,
-              private mpservice: MPService,
-              private gmapdm: GMDMatrix,
-              private geolocation: Geolocation,
-              private loadCtrl: LoadingController) {
+    lat:any;
+    long:any;
+    constructor(public navCtrl: NavController,
+                public navParams: NavParams,
+                public platform: Platform,
+                private loadCtrl: LoadingController) {
 
-    let loadingV = this.loadCtrl.create({
-        content: "Carregando"
-    });
-    loadingV.present();
-    this.hospital = navParams.get("unidade");
-    this.lat = navParams.get("lat");
-    this.long = navParams.get("long");
-    console.log(this.hospital);
+        let loadingV = this.loadCtrl.create({
+            content: "Carregando"
+        });
+        loadingV.present();
+        this.hospital = navParams.get("unidade");
+        this.lat = navParams.get("lat");
+        this.long = navParams.get("long");
+        console.log(this.hospital);
         loadingV.dismiss();
         platform.ready().then(() => {
-
-          this.loadMap();
+            this.loadMap();
         });
 
 
-  }
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ResultViewPage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad ResultViewPage');
+    }
 
-  loadMap(){
-    this.map = new GoogleMap('map', {
-      'controls': {
-        'compass': true,
-        'myLocationButton': true,
-        'indoorPicker': true,
-        'zoom': true
-      },
-      'gestures': {
-        'scroll': true,
-        'tilt': true,
-        'rotate': true,
-        'zoom': true
-      },
-      'camera': {
-        target: {
-          lat: -22.8575674,
-          lng: -43.2303843
-        },
-        'tilt': 0,
-        'zoom': 7,
-        'bearing': 0
-      }
-    });
+    loadMap(){
 
-    this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
-      console.log('Map is ready!');
-      this.change();
-    });
+        let opts: GoogleMapOptions = {
+            'controls': {
+                'compass': true,
+                'myLocationButton': true,
+                'indoorPicker': true,
+                'zoom': true
+            },
+            'gestures': {
+                'scroll': true,
+                'tilt': true,
+                'rotate': true,
+                'zoom': true
+            },
+            'camera': {
+                target: {
+                    lat: -22.8575674,
+                    lng: -43.2303843
+                },
+                'tilt': 0,
+                'zoom': 7,
+                'bearing': 0
+            }
+        };
 
-    // this.map.addKmlOverlay({'url': "https://www.samplewebsite.com/myKMLFile.kml"});
-  }
+        this.map = GoogleMaps.create('map', opts);
 
-  gfg:any;
+        this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+            console.log('Map is ready!');
+            //this.change();
+        });
 
-  change() {
-    let GOOGLE = {"lat": this.hospital.coodenadas[1], "lng": this.hospital.coodenadas[0]};
+        // this.map.addKmlOverlay({'url': "https://www.samplewebsite.com/myKMLFile.kml"});
+    }
 
-    this.map.addMarker({
-      'position': GOOGLE,
-      'title': this.hospital.estabelecimento
-    });
-    this.map.animateCamera({
-      'target': GOOGLE,
-      'tilt': 0,
-      'zoom': 13,
-      'bearing': 0
-    });
+    change() {
+        let GOOGLE = {"lat": this.hospital.coodenadas[1], "lng": this.hospital.coodenadas[0]};
 
-    let opts = {
-      enableHighAccuracy: true
-    };
+        // this.map.addMarker({
+        //     'position': GOOGLE,
+        //     'title': this.hospital.estabelecimento
+        // });
 
+        let marker: Marker = this.map.addMarkerSync({
+            'position': GOOGLE,
+            'title': this.hospital.estabelecimento
+        });
 
+        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+            console.log("click")
+        });
 
-    let onSuccess = function (location) {
-      this.local = ["Current your location:\n",
-        "latitude:" + location.latLng.lat,
-        "longitude:" + location.latLng.lng,
-        "speed:" + location.speed,
-        "time:" + location.time,
-        "bearing:" + location.bearing].join("\n");
+        this.map.animateCamera({
+            'target': GOOGLE,
+            'tilt': 0,
+            'zoom': 13,
+            'bearing': 0
+        });
 
-    };
-
-      let onError = function (msg) {
-        console.log('error');
-      };
-
-      this.map.getMyLocation().then((location) => {
-          this.local = ["Current your location:\n",
-              "latitude:" + location.latLng.lat,
-              "longitude:" + location.latLng.lng,
-              "speed:" + location.speed,
-              "time:" + location.time,
-              "bearing:" + location.bearing].join("\n");
-      });
+        this.map.getMyLocation().then((location) => {
+            this.local = ["Current your location:\n",
+                "latitude:" + location.latLng.lat,
+                "longitude:" + location.latLng.lng,
+                "speed:" + location.speed,
+                "time:" + location.time,
+                "bearing:" + location.bearing].join("\n");
+        });
 
 
     }
@@ -177,6 +161,6 @@ export class ResultViewPage {
     }
 
     openEvaluate(){
-      this.navCtrl.push(EvaluatePage);
+        this.navCtrl.push(EvaluatePage);
     }
 }

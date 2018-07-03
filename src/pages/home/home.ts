@@ -2,11 +2,7 @@ import { Component } from '@angular/core';
 import {
   GoogleMaps,
   GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
+  GoogleMapsEvent
 } from '@ionic-native/google-maps';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {ResultViewPage} from "../result-view/result-view";

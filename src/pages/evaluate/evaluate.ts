@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 
 /**
  * Generated class for the EvaluatePage page.
@@ -19,14 +19,20 @@ export class EvaluatePage {
   starNColored: string = "#ffef00";
   sType1: string = "star";
   sType2: string = "star-outline";
+  note: number = 0;
 
   starType: any[] = [this.sType2, this.sType2, this.sType2, this.sType2, this.sType2];
   star:any[] = [this.starNColored, this.starNColored, this.starNColored, this.starNColored, this.starNColored];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public viewCtrl: ViewController,
+              public alertCtrl: AlertController,
+              public loadCtrl: LoadingController) {
   }
 
   clickStar(id: number){
+    this.note = id+1;
     for(let i = 0; i <= id; i++){
       this.star[i] = this.starColored;
       this.starType[i] = this.sType1;
@@ -39,6 +45,26 @@ export class EvaluatePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EvaluatePage');
+  }
+
+  sendResult(){
+    if(this.note==0){
+        let alert = this.alertCtrl.create({
+            subTitle: 'Você precisa dar uma nota entre uma estrela e cinco estrelas!',
+            buttons: ['Ok']
+        });
+        alert.present();
+    } else {
+        let loadingV = this.loadCtrl.create({
+            content: "Enviando Avaliação"
+        });
+        loadingV.present();
+
+        setTimeout(() => {
+          loadingV.dismiss();
+          this.viewCtrl.dismiss();
+        }, 2000)
+    }
   }
 
 }

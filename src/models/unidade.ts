@@ -1,5 +1,3 @@
-import {GMDMatrix} from "../services/GoogleMapDistanceMatrixAPI";
-
 export class Unidade {
     id: string;
     coodenadas: number[];
@@ -14,7 +12,13 @@ export class Unidade {
 
     constructor(obj: any, lat: number, long: number){
         this.id =               obj && obj.id || null;
+        // if(obj.geometry == null) {
+        //     this.coodenadas = [5,5];
+        // } else {
+        //     this.coodenadas =       obj && null || obj.geometry.coordinates[0];
+        // };
         this.coodenadas =       obj && null || obj.geometry.coordinates[0];
+
         this.municipio =        obj && obj.properties.municipio || null;
         this.estabelecimento =  obj && obj.properties.estabeleci || null;
         this.tipo =             obj && obj.properties.tipo || null;

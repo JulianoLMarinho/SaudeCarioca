@@ -5,7 +5,6 @@ import {Geolocation} from "@ionic-native/geolocation";
 import {MPService} from "../../services/MPService";
 import {Unidade} from "../../models/unidade";
 import {GMDMatrix} from "../../services/GoogleMapDistanceMatrixAPI";
-import {NavigationDetailsPage} from "../home/home";
 import {ResultViewPage} from "../result-view/result-view";
 import {CommentListPage} from "../comment-list/comment-list";
 
@@ -64,21 +63,22 @@ export class ResultListPage {
               }
               this.unidades = temp;
 
+              let indice = 0;
+
               for (let i of this.unidades) {
                   this.gmapdm.getDistance([this.userLong, this.userLat],[i.coodenadas[0], i.coodenadas[1]]).subscribe((res)=>{
                       let k = (res.json().rows[0].elements[0].distance.value/1000).toFixed(1)+" km";
                       let num = (res.json().rows[0].elements[0].distance.value/1000).toFixed(1);
                       i.setDistanciaText(k, num);
+                      indice++;
+                      if(indice==10){
+                          this.unidades.sort(function (a, b) {
+                              return a.distancia - b.distancia;
+                          });
+                          console.log(this.unidades)
+                      }
                   });
               }
-
-              console.log(this.unidades);
-              this.unidades.sort(function (a, b) {
-                  return a.distancia - b.distancia;
-              });
-
-              this.unidadesSort = this.unidades;
-              console.log(this.unidades);
               loadingV.dismiss();
           })
       }).catch((error) => {
